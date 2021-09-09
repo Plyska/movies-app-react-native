@@ -62,7 +62,7 @@ function Photos({ dataMovie }) {
     }
   };
 
-    console.log(dataMo, 'dataMovie')
+    console.log(dataMovie, 'dataMovie')
   
   return (
     <ScrollView>
