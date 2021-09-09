@@ -1,20 +1,11 @@
-import React, { useRef, useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import { actionLike } from "../../components/redux/action";
 
-
-const Card = ({ title, icon, isLiked, id, data, setData, dataMovie }) => {
-//  console.log(dataMovie, 'dataMovie');
+const Card = ({ title, icon, isLiked, id, data, setData }) => {
   const setToStore = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
@@ -25,28 +16,15 @@ const Card = ({ title, icon, isLiked, id, data, setData, dataMovie }) => {
   };
 
   const like = () => {
-  //    console.log(id);
-
-    //    const favoriteMovies = [];
     const newArr = [...data];
     newArr.forEach((item) => {
       if (item.id === id) {
         item.isLiked = !isLiked;
       }
     });
-    //    console.log(newArr);
+
     setData(newArr);
-
-    // newArr.forEach((item) => {
-    //   if (item.isLiked) {
-    //     favoriteMovies.push(item);
-    //   }
-    // });
-
-    //    console.log(favoriteMovies.length);
-
     setToStore(newArr);
-//    console.log(actionLike(data), "actionLike");
   };
 
   return (
@@ -71,7 +49,7 @@ const Card = ({ title, icon, isLiked, id, data, setData, dataMovie }) => {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   box: {
@@ -79,24 +57,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 10,
-    marginBottom:10,
+    marginBottom: 10,
     borderWidth: 0.5,
     borderColor: "#000",
-    backgroundColor: "#f2fdff"
-   
+    backgroundColor: "#f2fdff",
   },
   icon: {
     width: 20,
     height: 20,
   },
   title: {
-    width: "80%"
-  }
+    width: "80%",
+  },
 });
 
 const mapDispatchToProps = {
-  actionLike
-}
-
+  actionLike,
+};
 
 export default connect(null, mapDispatchToProps)(Card);

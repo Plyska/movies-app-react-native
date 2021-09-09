@@ -12,7 +12,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Card from "../../components/Card";
 import { connect } from "react-redux";
 
-
 function Photos({ dataMovie }) {
   const navigation = useNavigation();
   const API_URL = "https://jsonplaceholder.typicode.com/photos?albumId=1";
@@ -62,8 +61,6 @@ function Photos({ dataMovie }) {
     }
   };
 
-    console.log(dataMovie, 'dataMovie')
-  
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -122,11 +119,10 @@ const styles = StyleSheet.create({
   },
 });
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    dataMovie: state.movies.data
+    dataMovie: state.movies.data,
   };
-}
+};
 
 export default connect(mapStateToProps, null)(Photos);

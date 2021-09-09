@@ -6,7 +6,6 @@ import Details from "../screens/Details";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -14,10 +13,7 @@ const TabNavigator = (props) => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Photos" component={Photos} />
-      <Tab.Screen
-        name="Favorites"
-        component={Favorites}
-      />
+      <Tab.Screen name="Favorites" component={Favorites} />
     </Tab.Navigator>
   );
 };

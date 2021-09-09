@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Card from "../../components/Card";
@@ -16,9 +16,6 @@ export default function Favorites() {
   };
 
   getFromStorage();
-
-  
- 
 
   return (
     <View style={styles.container}>
