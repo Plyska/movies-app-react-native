@@ -11,25 +11,36 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Card from "../../components/Card";
 import { connect } from "react-redux";
+import getDataFromApi from "../../service/getDataFromApi";
 
-function Photos({ dataMovie }) {
+function Photos(props) {
+  const { dataMovie } = props;
   const navigation = useNavigation();
-  const API_URL = "https://jsonplaceholder.typicode.com/photos?albumId=1";
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
 
-  useEffect(() => {
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((res) => {
-        setFilterData(res);
-        setData(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  // console.log(dataMovie(), 'datamovie');
+  useEffect(async () => {
+    const d = await getDataFromApi();
+    setData(d);
   }, []);
+
+  // useEffect( async () => {
+  //   // const q = await getDataFromApi()
+  //   // setData(q);
+  //   // fetch(API_URL)
+  //   //   .then((res) => res.json())
+  //   //   .then((res) => {
+  //   //     setFilterData(res);
+  //   //     setData(res);
+  //   //   })
+  //   //   .catch((err) => {
+  //   //     console.log(err);
+  //   //   });
+  //   //setData(getDataFromApi());
+
+  // }, []);
 
   const search = (text) => {
     if (text) {
@@ -121,7 +132,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    dataMovie: state.movies.data,
+    dataMovie: state.movies,
   };
 };
 

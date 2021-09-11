@@ -5,26 +5,22 @@ import { Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import { actionLike } from "../../components/redux/action";
 
-const Card = ({ title, icon, isLiked, id, data, setData }) => {
-  const setToStore = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@favorite", jsonValue);
-    } catch (e) {
-      console.warn(e);
-    }
-  };
+const Card = ({ title, icon, isLiked, id, data, setData, setLike }) => {
+  
+  // const setToStore = async (value) => {
+  //   try {
+  //     const jsonValue = JSON.stringify(value);
+  //     await AsyncStorage.setItem("@favorite", jsonValue);
+  //   } catch (e) {
+  //     console.warn(e);
+  //   }
+  // };
 
   const like = () => {
-    const newArr = [...data];
-    newArr.forEach((item) => {
-      if (item.id === id) {
-        item.isLiked = !isLiked;
-      }
-    });
-
-    setData(newArr);
-    setToStore(newArr);
+    setLike(data, id);
+    // setData(newArr);
+    // setToStore(newArr);
+    
   };
 
   return (
@@ -71,8 +67,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = {
-  actionLike,
-};
+const mapDispatchToProps = (dispatch) => ({
+  setLike: (data, id) => dispatch(actionLike(data, id)),
+});
 
 export default connect(null, mapDispatchToProps)(Card);

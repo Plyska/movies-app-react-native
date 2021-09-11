@@ -1,12 +1,17 @@
 import { LIKE } from "./types";
+import getDataFromApi from "../../service/getDataFromApi";
 
 const initialState = {
-  data: [],
+  photos: [],
 };
 
+//console.log(getDataFromApi());
+
 export const likeReducer = (state = initialState, action) => {
-  if (action.type === LIKE) {
-    return { ...state };
+  switch (action.type) {
+    case LIKE:
+      return { ...state, photos: action.payload };
+    default:
+      return state;
   }
-  return state;
 };
