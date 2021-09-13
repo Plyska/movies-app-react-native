@@ -2,21 +2,10 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Card from "../../components/Card";
+import { connect } from "react-redux";
 
-export default function Favorites() {
-  const [favorite, setFavorite] = useState([]);
-
-  const getFromStorage = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("@favorite");
-      setFavorite(jsonValue != null ? JSON.parse(jsonValue) : null);
-    } catch (e) {
-      console.warn(e);
-    }
-  };
-
-  getFromStorage();
-
+function Favorites({ dataMovie }) {
+  const [favorite, setFavorite] = useState(dataMovie.photos);
   return (
     <View style={styles.container}>
       <View>
@@ -37,7 +26,7 @@ export default function Favorites() {
                   icon={item.thumbnailUrl}
                   isLiked={item.isLiked}
                   id={item.id}
-                  data={favorite}
+                  data={dataMovie.photos}
                   setData={setFavorite}
                 />
               </TouchableOpacity>
@@ -58,3 +47,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    dataMovie: state.movies,
+  };
+};
+
+export default connect(mapStateToProps, null)(Favorites);

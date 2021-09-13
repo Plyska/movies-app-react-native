@@ -1,28 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigator from "../../navigation/Navigator";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { rootReducer } from "../redux/rootReducer";
+import getStore from "../../redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
-const store = createStore(rootReducer);
-
+const { store, persistor } = getStore();
 export default function MainPage() {
   return (
     <Provider store={store}>
-      <NavigationContainer style={styles.container}>
-        <Navigator />
-      </NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Navigator />
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

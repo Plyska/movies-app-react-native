@@ -1,9 +1,7 @@
 import { LIKE } from "./types";
 import { SAVE } from "./types";
 
-export function actionLike(data, id) {
-  const isLiked = false;
-  console.log(id, "id");
+export function actionLike(data, id, isLiked) {
   const newArr = [...data];
   newArr.forEach((item) => {
     if (item.id === id) {
@@ -14,11 +12,4 @@ export function actionLike(data, id) {
     type: LIKE,
     payload: newArr,
   };
-}
-
-export function setPhotos(data) {
-  return {
-    type: SAVE,
-    payload: data
-  }
 }

@@ -1,26 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Icon } from "react-native-elements";
 import { connect } from "react-redux";
-import { actionLike } from "../../components/redux/action";
+import { actionLike } from "../../redux/action";
 
-const Card = ({ title, icon, isLiked, id, data, setData, setLike }) => {
-  
-  // const setToStore = async (value) => {
-  //   try {
-  //     const jsonValue = JSON.stringify(value);
-  //     await AsyncStorage.setItem("@favorite", jsonValue);
-  //   } catch (e) {
-  //     console.warn(e);
-  //   }
-  // };
-
+const Card = ({ title, icon, isLiked, id, data, setLike }) => {
   const like = () => {
-    setLike(data, id);
-    // setData(newArr);
-    // setToStore(newArr);
-    
+    setLike(data, id, isLiked);
   };
 
   return (
@@ -68,7 +54,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setLike: (data, id) => dispatch(actionLike(data, id)),
+  setLike: (data, id, isLiked) => dispatch(actionLike(data, id, isLiked)),
 });
 
 export default connect(null, mapDispatchToProps)(Card);

@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Card from "../../components/Card";
 import { connect } from "react-redux";
 import getDataFromApi from "../../service/getDataFromApi";
@@ -20,27 +19,11 @@ function Photos(props) {
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
 
-  // console.log(dataMovie(), 'datamovie');
   useEffect(async () => {
     const d = await getDataFromApi();
     setData(d);
+    setFilterData(d);
   }, []);
-
-  // useEffect( async () => {
-  //   // const q = await getDataFromApi()
-  //   // setData(q);
-  //   // fetch(API_URL)
-  //   //   .then((res) => res.json())
-  //   //   .then((res) => {
-  //   //     setFilterData(res);
-  //   //     setData(res);
-  //   //   })
-  //   //   .catch((err) => {
-  //   //     console.log(err);
-  //   //   });
-  //   //setData(getDataFromApi());
-
-  // }, []);
 
   const search = (text) => {
     if (text) {
@@ -59,19 +42,6 @@ function Photos(props) {
     }
   };
 
-  const checkDataStorage = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("@favorite");
-      const favoriteMovies = jsonValue != null ? JSON.parse(jsonValue) : null;
-
-      if (favoriteMovies) {
-        setData(favoriteMovies);
-      }
-    } catch (e) {
-      console.warn(e);
-    }
-  };
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -82,8 +52,9 @@ function Photos(props) {
           onChangeText={(text) => search(text)}
           onSubmitEditing={search}
         />
+
         <View>
-          {data.map((item, i) => {
+          {data.map((item) => {
             return (
               <TouchableOpacity
                 key={item.id}
