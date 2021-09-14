@@ -1,17 +1,32 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import Photos from "../screens/Photos";
 import Favorites from "../screens/Favorites";
 import Details from "../screens/Details";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Icon } from "react-native-elements";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = (props) => {
+const TabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: () => {
+          let iconName;
+
+          if (route.name === "Photos") {
+            iconName = "images-outline";
+          } else if (route.name === "Favorites") {
+            iconName = "heart-half-outline";
+          }
+          return (
+            <Icon name={iconName} size={25} color="black" type="ionicon" />
+          );
+        },
+      })}
+    >
       <Tab.Screen name="Photos" component={Photos} />
       <Tab.Screen name="Favorites" component={Favorites} />
     </Tab.Navigator>

@@ -1,60 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { Icon } from "react-native-elements";
+import { Avatar, Icon, ListItem } from "react-native-elements";
 import { connect } from "react-redux";
 import { actionLike } from "../../redux/action";
 
-const Card = ({ title, icon, isLiked, id, data, setLike }) => {
+const Card = ({ title, icon, id, setFavorites, favorites }) => {
   const like = () => {
-    setLike(data, id, isLiked);
+    if (favorites.indexOf(id) > -1) {
+
+      let newArr = [ ...favorites ];
+      const index = newArr.indexOf(id);
+      newArr.splice(index, 1);
+
+      saveToRedux(newArr);
+    } else {
+
+      let newArr = [...favorites];
+      newArr.push(id);
+
+      saveToRedux(newArr);
+    }
+
+
   };
 
+  
+
+  function saveToRedux(likedPhotos) {
+    setFavorites(likedPhotos);
+  }
+
   return (
-    <View style={styles.box}>
-      <View>
-        <Image
-          style={styles.icon}
-          source={{
-            uri: icon,
-          }}
-        />
-      </View>
-      <View style={styles.title}>
-        <Text>{title}</Text>
-      </View>
+    <ListItem
+      bottomDivider
+      style={{
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
+      <Avatar source={{ uri: icon }} />
+      <ListItem.Title style={{ width: "75%" }}>{title}</ListItem.Title>
       <TouchableOpacity onPress={() => like()}>
-        {isLiked ? (
+        {favorites.indexOf(id) > -1 ? (
           <Icon name="heart-outline" type="ionicon" />
         ) : (
           <Icon name="heart-dislike-outline" type="ionicon" />
         )}
       </TouchableOpacity>
-    </View>
+    </ListItem>
   );
 };
 
-const styles = StyleSheet.create({
-  box: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 10,
-    marginBottom: 10,
-    borderWidth: 0.5,
-    borderColor: "#000",
-    backgroundColor: "#f2fdff",
-  },
-  icon: {
-    width: 20,
-    height: 20,
-  },
-  title: {
-    width: "80%",
-  },
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  setLike: (data, id, isLiked) => dispatch(actionLike(data, id, isLiked)),
+  setFavorites: (data) => dispatch(actionLike(data)),
 });
 
-export default connect(null, mapDispatchToProps)(Card);
+const mapStateToProps = (state) => {
+  return {
+    favorites: state.photos.favorites,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

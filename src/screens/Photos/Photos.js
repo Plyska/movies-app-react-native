@@ -8,22 +8,28 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { Input, Icon } from "react-native-elements";
 import Card from "../../components/Card";
 import { connect } from "react-redux";
 import getDataFromApi from "../../service/getDataFromApi";
+import { actionSaveAllPhotos } from "../../redux/action";
 
 function Photos(props) {
-  const { dataMovie } = props;
   const navigation = useNavigation();
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
     const d = await getDataFromApi();
+    props.setAllPhotos(d);
     setData(d);
     setFilterData(d);
-  }, []);
+  };
 
   const search = (text) => {
     if (text) {
@@ -45,8 +51,15 @@ function Photos(props) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <TextInput
-          style={styles.search}
+        <Input
+          leftIcon={
+            <Icon
+              name="search-circle-outline"
+              size={30}
+              color="silver"
+              type="ionicon"
+            />
+          }
           value={inputValue}
           placeholder="Search a movie..."
           onChangeText={(text) => search(text)}
@@ -54,24 +67,21 @@ function Photos(props) {
         />
 
         <View>
-          {data.map((item) => {
+          {data.map((photo) => {
             return (
               <TouchableOpacity
-                key={item.id}
+                key={photo.id}
                 onPress={() =>
                   navigation.navigate("Details", {
-                    title: item.title,
-                    url: item.url,
+                    title: photo.title,
+                    url: photo.url,
                   })
                 }
               >
                 <Card
-                  title={item.title}
-                  icon={item.thumbnailUrl}
-                  isLiked={item.isLiked}
-                  id={item.id}
-                  data={data}
-                  setData={setData}
+                  title={photo.title}
+                  icon={photo.thumbnailUrl}
+                  id={photo.id}
                 />
               </TouchableOpacity>
             );
@@ -101,10 +111,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    dataMovie: state.movies,
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  setAllPhotos: (data) => dispatch(actionSaveAllPhotos(data)),
+});
 
-export default connect(mapStateToProps, null)(Photos);
+export default connect(null, mapDispatchToProps)(Photos);

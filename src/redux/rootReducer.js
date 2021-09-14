@@ -9,7 +9,7 @@ const persistConfig = {
 };
 
 export const rootReducer = combineReducers({
-  movies: likeReducer,
+  photos: likeReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

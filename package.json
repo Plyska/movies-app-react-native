@@ -31,5 +31,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.0"
   },
-  "private": true
+  "private": true,
+  "name": "movies-app-react-native",
+  "version": "1.0.0"
 }
