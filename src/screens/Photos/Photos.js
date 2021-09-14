@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { Input, Icon } from "react-native-elements";
 import Card from "../../components/Card";
@@ -19,6 +20,7 @@ function Photos(props) {
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -28,6 +30,7 @@ function Photos(props) {
     const d = await getDataFromApi();
     props.setAllPhotos(d);
     setData(d);
+    setIsLoading(false);
     setFilterData(d);
   };
 
@@ -67,25 +70,31 @@ function Photos(props) {
         />
 
         <View>
-          {data.map((photo) => {
-            return (
-              <TouchableOpacity
-                key={photo.id}
-                onPress={() =>
-                  navigation.navigate("Details", {
-                    title: photo.title,
-                    url: photo.url,
-                  })
-                }
-              >
-                <Card
-                  title={photo.title}
-                  icon={photo.thumbnailUrl}
-                  id={photo.id}
-                />
-              </TouchableOpacity>
-            );
-          })}
+          {isLoading ? (
+            <View style={styles.loader}>
+              <ActivityIndicator size="large" color="#000" />
+            </View>
+          ) : (
+            data.map((photo) => {
+              return (
+                <TouchableOpacity
+                  key={photo.id}
+                  onPress={() =>
+                    navigation.navigate("Details", {
+                      title: photo.title,
+                      url: photo.url,
+                    })
+                  }
+                >
+                  <Card
+                    title={photo.title}
+                    icon={photo.thumbnailUrl}
+                    id={photo.id}
+                  />
+                </TouchableOpacity>
+              );
+            })
+          )}
         </View>
       </View>
     </ScrollView>
@@ -109,6 +118,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 40,
   },
+  loader: {
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
 
 const mapDispatchToProps = (dispatch) => ({
