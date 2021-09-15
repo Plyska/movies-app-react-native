@@ -7,28 +7,16 @@ import { actionLike } from "../../redux/action";
 const Card = ({ title, icon, id, setFavorites, favorites }) => {
   const like = () => {
     if (favorites.indexOf(id) > -1) {
-
-      let newArr = [ ...favorites ];
+      let newArr = [...favorites];
       const index = newArr.indexOf(id);
       newArr.splice(index, 1);
-
-      saveToRedux(newArr);
+      setFavorites(newArr);
     } else {
-
       let newArr = [...favorites];
       newArr.push(id);
-
-      saveToRedux(newArr);
+      setFavorites(newArr);
     }
-
-
   };
-
-  
-
-  function saveToRedux(likedPhotos) {
-    setFavorites(likedPhotos);
-  }
 
   return (
     <ListItem

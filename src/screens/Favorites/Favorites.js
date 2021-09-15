@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   ScrollView,
@@ -10,8 +9,6 @@ import Card from "../../components/Card";
 import { connect } from "react-redux";
 
 function Favorites({ favorites, allPhotos, navigation }) {
-  const [favorite, setFavorite] = useState([]);
-  //console.log(allPhotos);
   return (
     <ScrollView>
       <View style={styles.container}>
