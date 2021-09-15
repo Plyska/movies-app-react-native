@@ -4,8 +4,8 @@ import Card from "../../components/Card";
 import { useSelector } from "react-redux";
 
 function Favorites({ navigation }) {
-  const allPhotos = useSelector((state) => state.photos.allPhotos);
-  const favorites = useSelector((state) => state.photos.favorites);
+  const { allPhotos, favorites } = useSelector((state) => state.photos);
+  // const favorites = useSelector((state) => state.photos.favorites);
   return (
     <ScrollView>
       <View style={styles.container}>

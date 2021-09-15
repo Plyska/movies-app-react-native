@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
-import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import { Avatar, Icon, ListItem } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import { actionLike } from "../../redux/action";
 
-const Card = ({ title, icon, id }) => {
+const Card = ({ title, icon, id, url }) => {
+  const navigation = useNavigation();
   const favorites = useSelector((state) => state.photos.favorites);
   const dispatch = useDispatch();
 
@@ -34,16 +35,22 @@ const Card = ({ title, icon, id }) => {
         flexDirection: "row",
         justifyContent: "space-between",
       }}
+      onPress={() =>
+        navigation.navigate("Details", {
+          title: title,
+          url: url,
+        })
+      }
     >
       <Avatar source={{ uri: icon }} />
       <ListItem.Title style={{ width: "75%" }}>{title}</ListItem.Title>
-      <TouchableOpacity onPress={() => like()}>
-        {favorites.indexOf(id) > -1 ? (
-          <Icon name="heart-outline" type="ionicon" />
-        ) : (
-          <Icon name="heart-dislike-outline" type="ionicon" />
-        )}
-      </TouchableOpacity>
+      <Icon
+        name={
+          favorites.indexOf(id) > -1 ? "heart-outline" : "heart-dislike-outline"
+        }
+        type="ionicon"
+        onPress={() => like()}
+      />
     </ListItem>
   );
 };

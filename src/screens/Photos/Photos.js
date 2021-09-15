@@ -1,12 +1,5 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import { Input, Icon } from "react-native-elements";
 import Card from "../../components/Card";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,14 +7,13 @@ import getDataFromApi from "../../service/getDataFromApi";
 import { actionSaveAllPhotos } from "../../redux/action";
 
 function Photos() {
-  const navigation = useNavigation();
   const [inputValue, setInputValue] = useState("");
   const [filterData, setFilterData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const allPhotos = useSelector((state) => state.photos.allPhotos);
+  
   const dispatch = useDispatch();
-
   const setAllPhotos = useCallback(
     (data) => dispatch(actionSaveAllPhotos(data)),
     [dispatch]
@@ -80,21 +72,13 @@ function Photos() {
           ) : (
             filterData.map((photo) => {
               return (
-                <TouchableOpacity
+                <Card
                   key={photo.id}
-                  onPress={() =>
-                    navigation.navigate("Details", {
-                      title: photo.title,
-                      url: photo.url,
-                    })
-                  }
-                >
-                  <Card
-                    title={photo.title}
-                    icon={photo.thumbnailUrl}
-                    id={photo.id}
-                  />
-                </TouchableOpacity>
+                  title={photo.title}
+                  icon={photo.thumbnailUrl}
+                  id={photo.id}
+                  url={photo.url}
+                />
               );
             })
           )}
