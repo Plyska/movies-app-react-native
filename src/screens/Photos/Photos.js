@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -9,15 +9,23 @@ import {
 } from "react-native";
 import { Input, Icon } from "react-native-elements";
 import Card from "../../components/Card";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import getDataFromApi from "../../service/getDataFromApi";
 import { actionSaveAllPhotos } from "../../redux/action";
 
-function Photos({ allPhotos, setAllPhotos }) {
+function Photos() {
   const navigation = useNavigation();
   const [inputValue, setInputValue] = useState("");
   const [filterData, setFilterData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const allPhotos = useSelector((state) => state.photos.allPhotos);
+  const dispatch = useDispatch();
+
+  const setAllPhotos = useCallback(
+    (data) => dispatch(actionSaveAllPhotos(data)),
+    [dispatch]
+  );
 
   useEffect(() => {
     fetchData();
@@ -102,14 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setAllPhotos: (data) => dispatch(actionSaveAllPhotos(data)),
-});
-
-const mapStateToProps = (state) => {
-  return {
-    allPhotos: state.photos.allPhotos,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Photos);
+export default Photos;

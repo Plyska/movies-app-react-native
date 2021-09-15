@@ -1,14 +1,11 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
 import Card from "../../components/Card";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-function Favorites({ favorites, allPhotos, navigation }) {
+function Favorites({ navigation }) {
+  const allPhotos = useSelector((state) => state.photos.allPhotos);
+  const favorites = useSelector((state) => state.photos.favorites);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -50,11 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    favorites: state.photos.favorites,
-    allPhotos: state.photos.allPhotos,
-  };
-};
-
-export default connect(mapStateToProps, null)(Favorites);
+export default Favorites;

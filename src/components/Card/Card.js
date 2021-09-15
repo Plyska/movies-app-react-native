@@ -1,10 +1,18 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { useCallback } from "react";
+import { TouchableOpacity } from "react-native";
 import { Avatar, Icon, ListItem } from "react-native-elements";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { actionLike } from "../../redux/action";
 
-const Card = ({ title, icon, id, setFavorites, favorites }) => {
+const Card = ({ title, icon, id }) => {
+  const favorites = useSelector((state) => state.photos.favorites);
+  const dispatch = useDispatch();
+
+  const setFavorites = useCallback(
+    (data) => dispatch(actionLike(data)),
+    [dispatch]
+  );
+
   const like = () => {
     if (favorites.indexOf(id) > -1) {
       let newArr = [...favorites];
@@ -40,14 +48,4 @@ const Card = ({ title, icon, id, setFavorites, favorites }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setFavorites: (data) => dispatch(actionLike(data)),
-});
-
-const mapStateToProps = (state) => {
-  return {
-    favorites: state.photos.favorites,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Card);
+export default Card;
