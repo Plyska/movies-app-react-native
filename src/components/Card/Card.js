@@ -22,7 +22,6 @@ const Card = ({ photo }) => {
       let newArr = [...favorites];
       const index = newArr.indexOf(photo);
       setIconName("heart-dislike-outline");
-//      console.log(index, "index");
       newArr.splice(index, 1);
       setFavorites(newArr);
     } else {

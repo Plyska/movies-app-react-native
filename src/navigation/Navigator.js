@@ -4,10 +4,13 @@ import Favorites from "../screens/Favorites";
 import Details from "../screens/Details";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
+import ContactList from "../screens/ContactList";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const TabNavigator = () => {
   return (
@@ -33,7 +36,7 @@ const TabNavigator = () => {
   );
 };
 
-export default function Navigator() {
+const StackNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -44,5 +47,14 @@ export default function Navigator() {
       <Stack.Screen name="Photos" component={Photos} />
       <Stack.Screen name="Details" component={Details} />
     </Stack.Navigator>
+  );
+};
+
+export default function Navigator() {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home" component={StackNavigator} />
+      <Drawer.Screen name="Contact List" component={ContactList} />
+    </Drawer.Navigator>
   );
 }
