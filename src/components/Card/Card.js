@@ -1,12 +1,14 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { Avatar, Icon, ListItem } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import { actionLike } from "../../redux/action";
 
-const Card = ({ title, icon, id, url }) => {
+const Card = ({ photo }) => {
+  const { title, thumbnailUrl, id, url } = photo;
+  const [iconName, setIconName] = useState("heart-dislike-outline");
   const navigation = useNavigation();
-  const favorites = useSelector((state) => state.photos.favorites);
+  const { allPhotos, favorites } = useSelector((state) => state.photos);
   const dispatch = useDispatch();
 
   const setFavorites = useCallback(
@@ -15,17 +17,35 @@ const Card = ({ title, icon, id, url }) => {
   );
 
   const like = () => {
-    if (favorites.indexOf(id) > -1) {
+ //   console.log(allPhotos);
+    if (favorites.indexOf(photo) > -1) {
       let newArr = [...favorites];
-      const index = newArr.indexOf(id);
+      const index = newArr.indexOf(photo);
+      setIconName("heart-dislike-outline");
+//      console.log(index, "index");
       newArr.splice(index, 1);
       setFavorites(newArr);
     } else {
+      setIconName("heart-outline");
       let newArr = [...favorites];
-      newArr.push(id);
+      newArr.push(photo);
       setFavorites(newArr);
     }
   };
+
+  // const getIconName = () => {
+  //   allPhotos.forEach((photo) => {
+  //     favorites.forEach((favorite_photo) => {
+  //       if (photo.id === favorite_photo.id) {
+  //         console.log(photo.id, "photo id");
+  //         return "heart-outline";
+  //       } else {
+  //         return "heart-dislike-outline";
+  //       }
+  //     });
+  //   });
+  //   return "heart-dislike-outline";
+  // };
 
   return (
     <ListItem
@@ -42,15 +62,13 @@ const Card = ({ title, icon, id, url }) => {
         })
       }
     >
-      <Avatar source={{ uri: icon }} />
-      <ListItem.Title style={{ width: "75%" }}>{title}</ListItem.Title>
-      <Icon
-        name={
-          favorites.indexOf(id) > -1 ? "heart-outline" : "heart-dislike-outline"
-        }
-        type="ionicon"
-        onPress={() => like()}
-      />
+      <Avatar source={{ uri: thumbnailUrl }} />
+      <ListItem.Title style={{ width: "75%" }}>
+        {id}
+        {title}
+      </ListItem.Title>
+
+      <Icon name={iconName} type="ionicon" onPress={() => like()} />
     </ListItem>
   );
 };
