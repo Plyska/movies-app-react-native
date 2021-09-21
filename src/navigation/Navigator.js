@@ -14,7 +14,6 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
-
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -59,6 +58,16 @@ const ContactListNavigator = () => {
       <Stack.Screen
         name="Contacts"
         component={ContactList}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <Icon
+              name="add"
+              size={25}
+              color="black"
+              onPress={() => navigation.navigate("Add", {})}
+            />
+          ),
+        })}
       />
       <Stack.Screen name="Add" component={AddContact} />
     </Stack.Navigator>
@@ -66,8 +75,6 @@ const ContactListNavigator = () => {
 };
 
 export default function Navigator() {
-  const navigation = useNavigation();
-
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={StackNavigator} />

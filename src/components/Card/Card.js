@@ -6,7 +6,6 @@ import { actionLike } from "../../redux/action";
 
 const Card = ({ photo }) => {
   const { title, thumbnailUrl, id, url } = photo;
-  const [iconName, setIconName] = useState("heart-dislike-outline");
   const navigation = useNavigation();
   const { allPhotos, favorites } = useSelector((state) => state.photos);
   const dispatch = useDispatch();
@@ -17,15 +16,12 @@ const Card = ({ photo }) => {
   );
 
   const like = () => {
- //   console.log(allPhotos);
-    if (favorites.indexOf(photo) > -1) {
+    if (favorites.findIndex((photo) => photo.id === id) > -1) {
       let newArr = [...favorites];
-      const index = newArr.indexOf(photo);
-      setIconName("heart-dislike-outline");
+      const index = newArr.findIndex((photo) => photo.id === id);
       newArr.splice(index, 1);
       setFavorites(newArr);
     } else {
-      setIconName("heart-outline");
       let newArr = [...favorites];
       newArr.push(photo);
       setFavorites(newArr);
@@ -62,12 +58,16 @@ const Card = ({ photo }) => {
       }
     >
       <Avatar source={{ uri: thumbnailUrl }} />
-      <ListItem.Title style={{ width: "75%" }}>
-        {id}
-        {title}
-      </ListItem.Title>
-
-      <Icon name={iconName} type="ionicon" onPress={() => like()} />
+      <ListItem.Title style={{ width: "75%" }}>{title}</ListItem.Title>
+      <Icon
+        name={
+          favorites.findIndex((photo) => photo.id === id) > -1
+            ? "heart-outline"
+            : "heart-dislike-outline"
+        }
+        type="ionicon"
+        onPress={() => like()}
+      />
     </ListItem>
   );
 };
