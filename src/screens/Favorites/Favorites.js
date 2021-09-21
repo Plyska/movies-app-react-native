@@ -4,34 +4,26 @@ import Card from "../../components/Card";
 import { useSelector } from "react-redux";
 
 function Favorites({ navigation }) {
-  const { allPhotos, favorites } = useSelector((state) => state.photos);
-  // const favorites = useSelector((state) => state.photos.favorites);
+  const favorites = useSelector((state) => state.photos.favorites);
+  console.log(favorites, "FAVORITES");
   return (
     <ScrollView>
       <View style={styles.container}>
         <View>
-          {allPhotos.map((photo) => {
-            if (favorites.indexOf(photo.id) > -1) {
-              return (
-                <TouchableOpacity
-                  key={photo.id}
-                  onPress={() =>
-                    navigation.navigate("Details", {
-                      title: photo.title,
-                      url: photo.url,
-                    })
-                  }
-                >
-                  <Card
-                    title={photo.title}
-                    icon={photo.thumbnailUrl}
-                    id={photo.id}
-                  />
-                </TouchableOpacity>
-              );
-            } else {
-              return null;
-            }
+          {favorites.map((photo) => {
+            return (
+              <TouchableOpacity
+                key={photo.id}
+                onPress={() =>
+                  navigation.navigate("Details", {
+                    title: photo.title,
+                    url: photo.url,
+                  })
+                }
+              >
+                <Card photo={photo} />
+              </TouchableOpacity>
+            );
           })}
         </View>
       </View>

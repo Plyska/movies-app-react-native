@@ -71,15 +71,7 @@ function Photos() {
             </View>
           ) : (
             filterData.map((photo) => {
-              return (
-                <Card
-                  key={photo.id}
-                  title={photo.title}
-                  icon={photo.thumbnailUrl}
-                  id={photo.id}
-                  url={photo.url}
-                />
-              );
+              return <Card photo={photo} key={photo.id} />;
             })
           )}
         </View>
