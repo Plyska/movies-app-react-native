@@ -7,10 +7,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 import ContactList from "../screens/ContactList";
+import AddContact from "../screens/AddContact";
+import { useNavigation } from "@react-navigation/core";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
 
 const TabNavigator = () => {
   return (
@@ -50,11 +53,25 @@ const StackNavigator = () => {
   );
 };
 
+const ContactListNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Contacts"
+        component={ContactList}
+      />
+      <Stack.Screen name="Add" component={AddContact} />
+    </Stack.Navigator>
+  );
+};
+
 export default function Navigator() {
+  const navigation = useNavigation();
+
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={StackNavigator} />
-      <Drawer.Screen name="Contact List" component={ContactList} />
+      <Drawer.Screen name="Contact List" component={ContactListNavigator} />
     </Drawer.Navigator>
   );
 }

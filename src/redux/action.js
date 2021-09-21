@@ -1,5 +1,5 @@
-import { LIKE } from "./types";
-import { SAVE } from "./types";
+import { LIKE, SAVE, SAVE_CONTACTS } from "./types";
+
 
 export function actionLike(data) {
   return {
@@ -14,3 +14,11 @@ export function actionSaveAllPhotos(allPhotos) {
     payload: allPhotos
   }
 }
+
+export function actionSaveAllContacts(allContacts) {
+  return {
+    type: SAVE_CONTACTS,
+    payload: allContacts
+  }
+}
+

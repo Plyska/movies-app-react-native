@@ -7,12 +7,11 @@ export default function ContactsCard({
   id,
   contacts,
   setContacts,
-  contact
+  contact,
 }) {
   const removeContact = () => {
-    const newArr = [ ...contacts ];
- //   console.log(id, "ID");
-    const index = newArr.indexOf(contact);
+    const newArr = [...contacts];
+    const index = newArr.findIndex((item) => item.id === contact.id);
     newArr.splice(index, 1);
     setContacts(newArr);
   };
