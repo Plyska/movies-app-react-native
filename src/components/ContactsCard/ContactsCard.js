@@ -1,9 +1,11 @@
 import React from "react";
 import { Avatar, Icon, ListItem } from "react-native-elements";
+import { useNavigation } from "@react-navigation/core";
+
 
 export default function ContactsCard({ contact, removeContact }) {
-  const { firstName, secondName, gender, id } = contact;
-
+  const { firstName, secondName, gender, id, avatar } = contact;
+  const navigation = useNavigation();
   const getCurrentDate = () => {
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -12,19 +14,21 @@ export default function ContactsCard({ contact, removeContact }) {
   };
 
   return (
-    <ListItem bottomDivider>
+    <ListItem
+      bottomDivider
+      onPress={() => navigation.navigate("Contact Details")}
+    >
       <Avatar
         title={firstName[0] + secondName[0]}
-        source={{ uri: " " }}
+        source={{ uri: avatar }}
         rounded
         size="small"
       />
-
       <ListItem.Title>
         {firstName} {secondName}
       </ListItem.Title>
       <ListItem.Content>
-      <ListItem.Subtitle>{gender}</ListItem.Subtitle>
+        <ListItem.Subtitle>{gender}</ListItem.Subtitle>
         <ListItem.Subtitle>{getCurrentDate()}</ListItem.Subtitle>
       </ListItem.Content>
       <Icon

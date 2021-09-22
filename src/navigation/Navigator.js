@@ -8,6 +8,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 import ContactList from "../screens/ContactList";
 import AddContact from "../screens/AddContact";
+import ContactDetails from "../screens/ContactDetails";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,7 +37,11 @@ const TabNavigator = () => {
               color="black"
               onPress={() => navigation.toggleDrawer()}
             />
-        )
+        ),
+        headerStyle: {
+          
+
+        }
       })}
     >
       <Tab.Screen name="Photos" component={Photos} />
@@ -77,6 +82,7 @@ const ContactListNavigator = () => {
         })}
       />
       <Stack.Screen name="Add" component={AddContact} />
+      <Stack.Screen name="Contact Details" component={ContactDetails} />
     </Stack.Navigator>
   );
 };
