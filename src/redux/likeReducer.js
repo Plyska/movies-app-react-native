@@ -1,20 +1,22 @@
-import { LIKE, SAVE, SAVE_CONTACTS } from "./types";
+import { LIKE, SAVE, ADD_CONTACT, REMOVE_CONTACT } from "./types";
 
 const initialState = {
   favorites: [],
   allPhotos: [],
-  allContacts: []
+  allContacts: [],
 };
 
 export const likeReducer = (state = initialState, action) => {
-  //  console.log(action, 'action');
   switch (action.type) {
     case LIKE:
       return { ...state, favorites: action.payload };
     case SAVE:
       return { ...state, allPhotos: action.payload };
-    case SAVE_CONTACTS:
-      return { ...state, allContacts: action.payload };
+    case ADD_CONTACT:
+      const contacts = [...state.allContacts, action.payload];
+      return { ...state, allContacts: contacts };
+    case REMOVE_CONTACT:
+      return {...state, allContacts: action.payload };
     default:
       return state;
   }

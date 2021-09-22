@@ -8,7 +8,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 import ContactList from "../screens/ContactList";
 import AddContact from "../screens/AddContact";
-import { useNavigation } from "@react-navigation/core";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,7 +16,7 @@ const Drawer = createDrawerNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route, navigation }) => ({
         tabBarIcon: () => {
           let iconName;
 
@@ -30,6 +29,14 @@ const TabNavigator = () => {
             <Icon name={iconName} size={25} color="black" type="ionicon" />
           );
         },
+        headerLeft: () => (
+          <Icon
+              name="menu"
+              size={25}
+              color="black"
+              onPress={() => navigation.toggleDrawer()}
+            />
+        )
       })}
     >
       <Tab.Screen name="Photos" component={Photos} />
@@ -54,7 +61,7 @@ const StackNavigator = () => {
 
 const ContactListNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="ContactList">
       <Stack.Screen
         name="Contacts"
         component={ContactList}
@@ -64,7 +71,7 @@ const ContactListNavigator = () => {
               name="add"
               size={25}
               color="black"
-              onPress={() => navigation.navigate("Add", {})}
+              onPress={() => navigation.navigate("Add")}
             />
           ),
         })}
@@ -76,7 +83,7 @@ const ContactListNavigator = () => {
 
 export default function Navigator() {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator screenOptions={{headerShown: false}} >
       <Drawer.Screen name="Home" component={StackNavigator} />
       <Drawer.Screen name="Contact List" component={ContactListNavigator} />
     </Drawer.Navigator>

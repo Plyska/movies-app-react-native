@@ -7,7 +7,7 @@ import { actionLike } from "../../redux/action";
 const Card = ({ photo }) => {
   const { title, thumbnailUrl, id, url } = photo;
   const navigation = useNavigation();
-  const { allPhotos, favorites } = useSelector((state) => state.photos);
+  const  favorites = useSelector((state) => state.photos.favorites);
   const dispatch = useDispatch();
 
   const setFavorites = useCallback(
@@ -27,20 +27,6 @@ const Card = ({ photo }) => {
       setFavorites(newArr);
     }
   };
-
-  // const getIconName = () => {
-  //   allPhotos.forEach((photo) => {
-  //     favorites.forEach((favorite_photo) => {
-  //       if (photo.id === favorite_photo.id) {
-  //         console.log(photo.id, "photo id");
-  //         return "heart-outline";
-  //       } else {
-  //         return "heart-dislike-outline";
-  //       }
-  //     });
-  //   });
-  //   return "heart-dislike-outline";
-  // };
 
   return (
     <ListItem

@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 function Favorites({ navigation }) {
   const favorites = useSelector((state) => state.photos.favorites);
-  console.log(favorites, "FAVORITES");
   return (
     <ScrollView>
       <View style={styles.container}>

@@ -4,43 +4,33 @@ import { Button, Icon } from "react-native-elements";
 import { FlatList } from "react-native-gesture-handler";
 import ContactsCard from "../../components/ContactsCard/ContactsCard";
 import data_contacts from "../../service/contacts";
-import { useSelector, useDispatch } from "react-redux";
-import { actionSaveAllContacts } from "../../redux/action";
+import { useSelector } from "react-redux";
+import { actionRemoveContact } from "../../redux/action";
+import { useDispatch } from "react-redux";
 
 export default function ContactList({ navigation }) {
-  const [contacts, setContacts] = useState(data_contacts);
-
+  const allContacts = useSelector((state) => state.photos.allContacts);
   const dispatch = useDispatch();
-  const setAllContacts = useCallback(
-    (data) => dispatch(actionSaveAllContacts(data)),
+  const removeContactFromRedux = useCallback(
+    (data) => dispatch(actionRemoveContact(data)),
     [dispatch]
   );
 
-  useEffect(() => {
-    setAllContacts(data_contacts)
-  }, [])
+  const removeContact = (id) => {
+    const newArr = [...allContacts];
+    const index = newArr.findIndex(item => item.id === id)
+    newArr.splice(index, 1)
+    removeContactFromRedux(newArr);
+  };
 
   const renderAllContacts = ({ item }) => (
-    <ContactsCard
-      contact={item}
-      contacts={contacts}
-      setContacts={setContacts}
-      id={item.id}
-      firstName={item.first_name}
-      secondName={item.second_name}
-      gender={item.gender}
-    />
+    <ContactsCard contact={item} removeContact={removeContact} />
   );
 
   return (
     <View>
-      <Button
-        icon={<Icon name="add-circle-outline" size={20} color="white" />}
-        title="Add contact"
-        onPress={() => navigation.navigate("Add")}
-      />
       <FlatList
-        data={contacts}
+        data={allContacts}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderAllContacts}
       />
