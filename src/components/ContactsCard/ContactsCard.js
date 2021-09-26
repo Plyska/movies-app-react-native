@@ -2,7 +2,6 @@ import React from "react";
 import { Avatar, Icon, ListItem } from "react-native-elements";
 import { useNavigation } from "@react-navigation/core";
 
-
 export default function ContactsCard({ contact, removeContact }) {
   const { firstName, secondName, gender, id, avatar } = contact;
   const navigation = useNavigation();
@@ -16,7 +15,9 @@ export default function ContactsCard({ contact, removeContact }) {
   return (
     <ListItem
       bottomDivider
-      onPress={() => navigation.navigate("Contact Details")}
+      onPress={() =>
+        navigation.navigate("Contact Details", { contact: contact })
+      }
     >
       <Avatar
         title={firstName[0] + secondName[0]}

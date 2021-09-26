@@ -4,8 +4,7 @@ import { Input, Button } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { actionAddContact } from "../../redux/action";
 import { useDispatch } from "react-redux";
-import * as ImagePicker from "expo-image-picker";
-import { Constants } from "expo-constants";
+import * as ImagePicker from "expo-image-picker";;
 
 export default function AddContact({ navigation }) {
   const [valuePicker, setValuePicker] = useState("male");
@@ -52,7 +51,6 @@ export default function AddContact({ navigation }) {
       quality: 1,
     };
     let result = await ImagePicker.launchImageLibraryAsync(options);
-    console.log(result, "result");
     if (!result.cancelled) {
       setImage(result.uri);
     }

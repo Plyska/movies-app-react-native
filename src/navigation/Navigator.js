@@ -32,16 +32,13 @@ const TabNavigator = () => {
         },
         headerLeft: () => (
           <Icon
-              name="menu"
-              size={25}
-              color="black"
-              onPress={() => navigation.toggleDrawer()}
-            />
+            style={{ marginLeft: 15 }}
+            name="menu"
+            size={25}
+            color="black"
+            onPress={() => navigation.toggleDrawer()}
+          />
         ),
-        headerStyle: {
-          
-
-        }
       })}
     >
       <Tab.Screen name="Photos" component={Photos} />
@@ -71,8 +68,18 @@ const ContactListNavigator = () => {
         name="Contacts"
         component={ContactList}
         options={({ navigation }) => ({
+          headerLeft: () => (
+            <Icon
+              style={{ marginLeft: 15 }}
+              name="menu"
+              size={25}
+              color="black"
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
           headerRight: () => (
             <Icon
+              style={{ marginRight: 15 }}
               name="add"
               size={25}
               color="black"
@@ -89,7 +96,7 @@ const ContactListNavigator = () => {
 
 export default function Navigator() {
   return (
-    <Drawer.Navigator screenOptions={{headerShown: false}} >
+    <Drawer.Navigator screenOptions={{ headerShown: false }}>
       <Drawer.Screen name="Home" component={StackNavigator} />
       <Drawer.Screen name="Contact List" component={ContactListNavigator} />
     </Drawer.Navigator>
